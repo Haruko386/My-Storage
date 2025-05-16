@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from pyexpat.errors import messages
-
+from Product.views import product_list
 from Account.form import UserLoginForm
 
 
@@ -21,7 +21,7 @@ def user_register(request):
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username already taken')
     elif request.method == 'GET':
-            return render(request, '/account/register')
+        return render(request, 'account/register.html')
 
 
 def user_login(request):
@@ -33,11 +33,12 @@ def user_login(request):
             # 检验账号、密码是否正确匹配数据库中的某个用户
             # 如果均匹配则返回这个 user 对象
             user = authenticate(username=data['username'], password=data['password'])
+            print(user)
             if user:
                 login(request, user)
-                return redirect(request,'index')
+                return redirect('products-list')
             else:
-                return redirect(request, 'account/login.html')
+                return redirect('account/404.html')
         else:
             return redirect('account/login')
     elif request.method == 'GET':
@@ -47,6 +48,7 @@ def user_login(request):
     else:
         return HttpResponse('Please enter correct username and password')
 
+
 def user_logout(request):
     logout(request)
-    return redirect('index')
+    return redirect('products-list')

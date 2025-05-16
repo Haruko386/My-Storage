@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}添加产品{% endblock %}
+
+{% block content %}
+    <div class="minimal-add-container">
+        <div class="minimal-add-card">
+            <h2 class="minimal-add-title">New Story</h2>
+
+            <form method="post" action="{% url 'product_add' %}" enctype="multipart/form-data" class="minimal-add-form">
+                {% csrf_token %}
+
+                <div class="minimal-form-grid">
+                    <!-- 产品名称 -->
+                    <div class="minimal-form-group">
+                        <label for="name" class="minimal-form-label">Name*</label>
+                        <input type="text" id="name" name="name" class="minimal-form-input" required>
+                    </div>
+
+                    <!-- 拍摄日期 -->
+                    <div class="minimal-form-group">
+                        <label for="Buying_Date" class="minimal-form-label">Shooting Date*</label>
+                        <input type="date" id="Shooting_Date" name="Shooting_Date" class="minimal-form-input">
+                    </div>
+
+                    <!-- 图片上传 -->
+                    <div class="minimal-form-group full-width">
+                        <label class="minimal-form-label">Image*</label>
+                        <div class="minimal-file-upload">
+                            <input type="file" id="image" name="image" accept="image/*" required>
+                            <div class="minimal-file-display">
+                                <span class="minimal-file-text">Select...</span>
+                                <span class="minimal-file-icon">📁</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 描述 -->
+                    <div class="minimal-form-group full-width">
+                        <label for="description" class="minimal-form-label">Story</label>
+                        <textarea id="description" name="description" class="minimal-form-textarea" rows="4" placeholder="Please write your story"></textarea>
+                    </div>
+                </div>
+
+                <!-- 表单错误提示 -->
+                {% if form.errors %}
+                    <div class="minimal-form-errors">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <div class="minimal-error-item">
+                                    <span class="minimal-error-icon">!</span>
+                                    <span>{{ field|title }}: {{ error }}</span>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="minimal-form-actions">
+                    <button type="submit" class="minimal-submit-btn">
+                        <span class="minimal-btn-text">Save</span>
+                        <span class="minimal-btn-spinner"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

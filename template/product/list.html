@@ -1,38 +1,58 @@
-<!-- extends表明此页面继承自 base.html 文件 -->
 {% extends "base.html" %}
 {% load static %}
 
-<!-- 写入 base.html 中定义的 title -->
-{% block title %}
-    首页
-{% endblock title %}
+{% block title %}Gallery Collab{% endblock %}
 
-<!-- 写入 base.html 中定义的 content -->
 {% block content %}
+    <div class="minimal-main">
+{#        <!-- 轮播图区域 -->#}
+{#        <div class="minimal-carousel-container">#}
+{#            <div id="productCarousel" class="minimal-carousel">#}
+{#                <!-- 循环生成轮播项 -->#}
+{#                {% for product in products|slice:":5" %}#}
+{#                    <div class="minimal-carousel-item {% if forloop.first %}active{% endif %}">#}
+{#                        <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }}"#}
+{#                             alt="{{ product.name }}"#}
+{#                             class="minimal-carousel-img">#}
+{#                        <div class="minimal-carousel-caption">#}
+{#                            <h3>{{ product.name }}</h3>#}
+{#                            <p>{{ product.Classification }}</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#            <!-- 轮播控制按钮 -->#}
+{#            <button class="minimal-carousel-control prev" onclick="moveSlide(-1)">‹</button>#}
+{#            <button class="minimal-carousel-control next" onclick="moveSlide(1)">›</button>#}
+{#        </div>#}
 
-    <!-- 定义放置文章标题的div容器 -->
-    <div class="container">
-        <div class="row mt-2">
-
-            {% for p in products %}
-                <!-- 文章内容 -->
-                <div class="col-4 mb-4">
-                    <!-- 卡片容器 -->
-                    <div class="card h-100">
-                        <!-- 标题 -->
-                        <h4 class="card-header">{{ p.name }}</h4>
-                        <!-- 摘要 -->
-                        <div class="card-body">
-                            <p class="card-text">{{ p.price|slice:'100' }}...</p>
+        <!-- 当前轮播产品详情 -->
+        <div class="minimal-current-product">
+            {% for product in products %}
+                <div class="minimal-product-item">
+                    <div class="minimal-current-image">
+                        <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }}"
+                             alt="{{ product.name }}">
+                    </div>
+                    <div class="minimal-current-details">
+                        <h1 class="minimal-photo-title">{{ product.name }}</h1>
+                        <div class="minimal-photo-meta">
+                            <div class="minimal-meta-date">
+                                <span class="minimal-meta-icon">📅</span>
+                                <span class="minimal-date-value">{{ product.Shooting_Date|date:"Y.m.d" }}</span>
+                            </div>
+                            <div class="minimal-photo-description">
+                                {{ product.description|linebreaks }}
+                            </div>
                         </div>
-                        <!-- 注脚 -->
-                        <div class="card-footer">
-                            <a href="#" class="btn btn-primary">阅读本文</a>
-                        </div>
+                        <a href="{% url 'products_detail' product.id %}" class="minimal-view-detail">
+                            <span class="minimal-view-icon">🔍</span>
+                            <span>View Full Story</span>
+                        </a>
                     </div>
                 </div>
             {% endfor %}
-
         </div>
+
     </div>
-{% endblock content %}
+{% endblock %}

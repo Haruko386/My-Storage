@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -6,9 +7,7 @@ from django.db import models
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    price = models.FloatField()
-    Buying_Date = models.DateField()
-    Classification = models.CharField(max_length=100)
+    Shooting_Date = models.DateField()
     image = models.ImageField(upload_to='products/')
     description = models.TextField()
 
@@ -16,7 +15,7 @@ class Product(models.Model):
         return self.name
 
     class Meta:
-        ordering = ['Buying_Date']
+        ordering = ['Shooting_Date']
         verbose_name_plural = 'Products'
         verbose_name = 'Product'
 

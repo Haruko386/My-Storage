@@ -1,19 +1,281 @@
-<!-- 定义导航栏 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
+{% load static %}
+<style>
+    /* 用户头像样式 */
+    .minimal-avatar-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+    }
 
-        <!-- 导航栏商标 -->
-        <a class="navbar-brand" href="#">我的博客</a>
+    .minimal-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--gray-200);
+        transition: all 0.3s ease;
+    }
 
-        <!-- 导航入口 -->
-        <div>
-            <ul class="navbar-nav">
-                <!-- 条目 -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'products-list' %}">文章</a>
-                </li>
-            </ul>
-        </div>
+    .minimal-avatar:hover {
+        border-color: var(--gray-400);
+    }
 
+    /* 下拉菜单样式 */
+    .minimal-user-dropdown {
+        position: relative;
+        margin-left: 1rem;
+    }
+
+    .minimal-dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 240px;
+        background-color: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 0;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.2s ease;
+    }
+
+    .minimal-user-dropdown:hover .minimal-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    /* 下拉菜单头部 */
+    .minimal-dropdown-header {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+    }
+
+    .minimal-dropdown-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 0.75rem;
+    }
+
+    .minimal-user-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .minimal-username {
+        font-weight: 500;
+        color: var(--gray-900);
+        font-size: 0.9rem;
+    }
+
+    .minimal-user-email {
+        color: var(--gray-600);
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+    }
+
+    /* 下拉菜单项 */
+    .minimal-dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        color: var(--gray-800);
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .minimal-dropdown-item:hover {
+        background-color: var(--gray-50);
+    }
+
+    .minimal-dropdown-icon {
+        margin-right: 0.75rem;
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    /* 分隔线 */
+    .minimal-dropdown-divider {
+        height: 1px;
+        background-color: var(--gray-200);
+        margin: 0.5rem 0;
+    }
+    .login-button-wrapper {
+        position: relative;
+        display: inline-block;
+         /* 为下方提示框留出空间 */
+        margin-right: 80px;
+    }
+
+    .white-login-btn {
+        display: inline-block;
+        background-color: transparent;
+        color: white; /* 白色文字 */
+        border: 2px solid white; /* 白色边框 */
+        padding: 10px 24px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.95rem;
+    }
+
+    .white-login-btn:hover {
+        background-color: rgba(255, 255, 255, 0.1); /* 悬停时轻微白色背景 */
+    }
+
+    .login-tooltip {
+        position: absolute;
+        top: calc(100% + 15px); /* 显示在按钮下方 */
+        left: 50%;
+        transform: translateX(-50%) translateY(-10px);
+        background-color: var(--gray-800);
+        color: var(--white);
+        padding: 0;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        width: 220px;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 100;
+    }
+
+    .tooltip-content {
+        padding: 12px 16px;
+        line-height: 1.5;
+    }
+
+    .tooltip-content p {
+        margin: 0 0 8px 0;
+        color: white;
+    }
+
+    .tooltip-content p:last-child {
+        margin-bottom: 0;
+    }
+
+    .tooltip-arrow {
+        position: absolute;
+        bottom: 100%; /* 箭头现在朝上 */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid var(--gray-800); /* 箭头朝下 */
+        border-top: none;
+    }
+
+    /* 鼠标悬停时的动画效果 */
+    .login-button-wrapper:hover .login-tooltip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 480px) {
+        .login-tooltip {
+            width: 180px;
+            font-size: 0.8rem;
+        }
+    }
+
+
+
+</style>
+<header class="minimal-header">
+    <div class="minimal-header-container">
+        <a href="{% url 'products-list' %}" class="minimal-brand">Gallery Collab</a>
+        {% if user.is_authenticated %}
+            <!-- 导航菜单 -->
+            <nav class="minimal-nav">
+                <ul class="minimal-nav-list">
+                    <!-- 用户头像区域 -->
+                    <li class="minimal-user-dropdown">
+                        <div class="minimal-avatar-container">
+                            <img src="{{ user.avatar.url|default:'/media/accounts/default.png' }}"
+                                 alt="{{ user.username }}"
+                                 class="minimal-avatar"
+                                 id="userAvatar">
+                        </div>
+                        <div class="minimal-dropdown-menu">
+                            <div class="minimal-dropdown-header">
+                                <img src="{{ user.avatar.url|default:'/media/accounts/default.png' }}"
+                                     alt="{{ user.username|default:'Welcome' }}"
+                                     class="minimal-dropdown-avatar">
+                                <div class="minimal-user-info">
+                                    <span class="minimal-username">{{ user.username }}</span>
+                                    <span class="minimal-user-email">{{ user.email }}</span>
+                                </div>
+                            </div>
+                            <div class="minimal-dropdown-divider"></div>
+                            <a href="{% url 'product_add' %}" class="minimal-dropdown-item">
+                                <span class="minimal-dropdown-icon">🖼️</span>
+                                <span>Add Story</span>
+                            </a>
+                            <a href="{% url 'logout' %}" class="minimal-dropdown-item">
+                                <span class="minimal-dropdown-icon">🚪</span>
+                                <span>Log Out</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        {% else %}
+            <div class="login-button-wrapper">
+                <a href="{% url 'login' %}" class="white-login-btn">Login</a>
+                <div class="login-tooltip">
+                    <div class="tooltip-content">
+                        <!-- 这里可以自由修改内容 -->
+                        <p>You Found Me, Welcome Back!</p>
+                        <p>Click to access your gallery</p>
+                    </div>
+                    <div class="tooltip-arrow"></div>
+                </div>
+            </div>
+        {% endif %}
     </div>
-</nav>
+    <script>
+        // 用户下拉菜单交互
+        document.addEventListener('DOMContentLoaded', function () {
+            const avatar = document.getElementById('userAvatar');
+            const dropdown = document.querySelector('.minimal-dropdown-menu');
+
+            if (avatar && dropdown) {
+                // 点击头像切换菜单显示
+                avatar.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const isVisible = dropdown.style.opacity === '1';
+                    dropdown.style.opacity = isVisible ? '0' : '1';
+                    dropdown.style.visibility = isVisible ? 'hidden' : 'visible';
+                    dropdown.style.transform = isVisible ? 'translateY(10px)' : 'translateY(0)';
+                });
+
+                // 点击页面其他区域关闭菜单
+                document.addEventListener('click', function () {
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                    dropdown.style.transform = 'translateY(10px)';
+                });
+
+                // 阻止菜单内部点击事件冒泡
+                dropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                });
+            }
+        });
+    </script>
+</header>

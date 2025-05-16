@@ -8,6 +8,7 @@ class Account(models.Model):
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
+    avatar = models.ImageField(upload_to='accounts/', default='accounts/default.png')
 
     registered_date = models.DateField(auto_now_add=True)
     last_login = models.DateField(auto_now_add=True)

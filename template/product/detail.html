@@ -1,26 +1,125 @@
-<!-- extends表明此页面继承自 base.html 文件 -->
 {% extends "base.html" %}
 {% load static %}
 
-<!-- 写入 base.html 中定义的 title -->
-{% block title %}
-    文章详情
-{% endblock title %}
+{% block title %}{{ product.name }} - Detail{% endblock %}
 
-<!-- 写入 base.html 中定义的 content -->
 {% block content %}
+    <div class="minimal-centered-wrapper">
+        <div class="minimal-photo-detail-container">
+            <!-- 左侧：图片展示 -->
+            <div class="minimal-photo-image-container">
+                <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }}"
+                     alt="{{ product.name }}"
+                     class="minimal-photo-image">
+            </div>
 
-    <!-- 文章详情 -->
-    <div class="container">
-        <div class="row">
-            <!-- 标题及作者 -->
-            <h1 class="col-12 mt-4 mb-4">{{ product.name }}</h1>
-            <div class="col-12 alert alert-success">价格{{ product.price }}</div>
-            <!-- 文章正文 -->
-            <div class="col-12">
-                <p>{{ product.description|safe }}</p>
+            <!-- 右侧：信息和描述 -->
+            <div class="minimal-photo-info-container">
+                <!-- 上半部分：信息 -->
+                <div class="minimal-photo-meta-panel">
+                    <h1 class="minimal-photo-title">{{ product.name }}</h1>
+
+                    <div class="minimal-photo-specs">
+                        <div class="minimal-spec-item">
+                            <span class="minimal-spec-icon">📅</span>
+                            <span class="minimal-spec-value">{{ product.Shooting_Date|date:"Y.m.d" }}</span>
+                        </div>
+                        <div class="minimal-spec-item">
+                            <span class="minimal-spec-icon">🆔</span>
+                            <span class="minimal-spec-value">No. {{ product.id }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 下半部分：描述 -->
+                <!-- 在描述区域添加内容长度检测标记 -->
+                <div class="minimal-description-content" data-content-length="{{ product.description|length }}">
+                    {{ product.description|safe }}
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="minimal-photo-actions">
+                    <a href="{% url 'products-list' %}" class="minimal-back-btn">Back to Gallery</a>
+                    <a href="{% url 'product_delete' product.id %}" class="minimal-delete-btn">Delete Photo</a>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        // 根据内容长度动态调整样式
+        document.addEventListener('DOMContentLoaded', function () {
+            const descContent = document.querySelector('.minimal-description-content');
+            if (descContent) {
+                const length = descContent.getAttribute('data-content-length') || 0;
+                if (length > 500) {
+                    descContent.parentElement.classList.add('long-description');
+                }
+            }
+        });
 
-{% endblock content %}
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the delete button
+            const deleteBtn = document.querySelector('.minimal-delete-btn');
+
+            // Add click event listener
+            deleteBtn.addEventListener('click', function(e) {
+                // Prevent immediate navigation
+                e.preventDefault();
+
+                // Get the photo name from the title
+                const photoName = document.querySelector('.minimal-photo-title').textContent;
+                const deleteUrl = this.href;
+
+                // Create custom confirmation dialog
+                const dialog = document.createElement('div');
+                dialog.className = 'minimal-confirm-dialog';
+                dialog.innerHTML = `
+            <div class="minimal-dialog-content">
+                <h4>Confirm Deletion</h4>
+                <p>Are you sure you want to delete "${photoName}"?</p>
+                <div class="minimal-dialog-actions">
+                    <button class="minimal-dialog-cancel">Cancel</button>
+                    <button class="minimal-dialog-confirm">Delete</button>
+                </div>
+            </div>
+        `;
+
+                // Style the dialog (could also be in CSS file)
+                dialog.style.position = 'fixed';
+                dialog.style.top = '0';
+                dialog.style.left = '0';
+                dialog.style.width = '100%';
+                dialog.style.height = '100%';
+                dialog.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                dialog.style.display = 'flex';
+                dialog.style.justifyContent = 'center';
+                dialog.style.alignItems = 'center';
+                dialog.style.zIndex = '1000';
+
+                // Style dialog content
+                const content = dialog.querySelector('.minimal-dialog-content');
+                content.style.backgroundColor = 'white';
+                content.style.padding = '2rem';
+                content.style.borderRadius = '4px';
+                content.style.maxWidth = '400px';
+                content.style.width = '90%';
+
+                // Add to document
+                document.body.appendChild(dialog);
+
+                // Handle cancel button
+                dialog.querySelector('.minimal-dialog-cancel').addEventListener('click', function() {
+                    document.body.removeChild(dialog);
+                });
+
+                // Handle confirm button
+                dialog.querySelector('.minimal-dialog-confirm').addEventListener('click', function() {
+                    window.location.href = deleteUrl;
+                });
+            });
+        });
+    </script>
+{% endblock %}

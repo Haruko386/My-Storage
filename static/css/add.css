@@ -1,0 +1,435 @@
+/* 基础变量 */
+:root {
+    --white: #ffffff;
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #eeeeee;
+    --gray-300: #e0e0e0;
+    --gray-400: #bdbdbd;
+    --gray-500: #9e9e9e;
+    --gray-600: #757575;
+    --gray-700: #616161;
+    --gray-800: #424242;
+    --gray-900: #212121;
+    --error-red: #f44336;
+}
+
+/* 摄影作品详情样式 */
+.minimal-photo-title {
+    font-size: 1.8rem;
+    font-family: Calibri, serif;
+    font-weight: 400;
+    color: var(--gray-900);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+.minimal-photo-meta {
+    margin-bottom: 2rem;
+}
+
+.minimal-meta-date {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    color: var(--gray-600);
+    font-size: 0.95rem;
+}
+
+.minimal-meta-icon {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.minimal-date-value {
+    font-family: 'Arial Black', monospace;
+}
+
+.minimal-photo-description {
+    background-color: var(--gray-50);
+    padding: 1.2rem;
+    border-radius: 4px;
+    color: var(--gray-700);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    border-left: 3px solid var(--gray-200);
+}
+
+/* 查看详情按钮 */
+.minimal-view-detail {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--gray-800);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.minimal-view-icon {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+.minimal-view-detail:hover {
+    background-color: var(--gray-700);
+    transform: translateY(-2px);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .minimal-photo-title {
+        font-size: 1.5rem;
+    }
+
+    .minimal-photo-description {
+        padding: 1rem;
+    }
+}
+
+/* 添加产品容器 */
+.minimal-add-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.minimal-add-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 4px;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.minimal-add-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gray-800);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* 表单网格布局 */
+.minimal-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.minimal-form-group {
+    margin-bottom: 0;
+}
+
+.minimal-form-group.full-width {
+    grid-column: span 2;
+}
+
+/* 表单元素样式 */
+.minimal-form-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.minimal-form-label:after {
+    content: '*';
+    color: var(--error-red);
+    margin-left: 0.25rem;
+    opacity: 0;
+}
+
+.minimal-form-label.required:after {
+    opacity: 1;
+}
+
+.minimal-form-input,
+.minimal-form-textarea,
+.minimal-file-upload {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 4px;
+    background: var(--white);
+    font-size: 0.9375rem;
+    transition: all 0.2s;
+}
+
+.minimal-form-input:focus,
+.minimal-form-textarea:focus {
+    outline: none;
+    border-color: var(--gray-500);
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+}
+
+.minimal-form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* 文件上传样式 */
+.minimal-file-upload {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.minimal-file-upload input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.minimal-file-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+}
+
+.minimal-file-text {
+    color: var(--gray-600);
+    font-size: 0.9375rem;
+}
+
+.minimal-file-icon {
+    font-size: 1.25rem;
+    color: var(--gray-400);
+}
+
+/* 错误提示 */
+.minimal-form-errors {
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--error-red);
+    background: var(--gray-50);
+    padding: 0.75rem;
+}
+
+.minimal-error-item {
+    display: flex;
+    align-items: center;
+    color: var(--error-red);
+    font-size: 0.875rem;
+    margin: 0.25rem 0;
+}
+
+.minimal-error-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    background: var(--error-red);
+    color: var(--white);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* 提交按钮 */
+.minimal-form-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.minimal-submit-btn {
+    position: relative;
+    background: var(--gray-800);
+    color: var(--white);
+    border: none;
+    padding: 0.875rem 2rem;
+    font-size: 0.9375rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    overflow: hidden;
+    min-width: 180px;
+}
+
+.minimal-submit-btn:hover {
+    background: var(--gray-900);
+}
+
+.minimal-btn-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: var(--white);
+    animation: spin 0.8s linear infinite;
+    opacity: 0;
+}
+
+@keyframes spin {
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 加载状态 */
+.minimal-submit-btn.loading .minimal-btn-text {
+    opacity: 0;
+}
+
+.minimal-submit-btn.loading .minimal-btn-spinner {
+    opacity: 1;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .minimal-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .minimal-form-group.full-width {
+        grid-column: span 1;
+    }
+}
+
+/* 图片预览样式 */
+.minimal-image-preview {
+    margin-top: 1rem;
+    border: 1px dashed var(--gray-300);
+    border-radius: 4px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--gray-50);
+}
+
+.minimal-preview-default {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--gray-400);
+}
+
+.minimal-preview-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.minimal-preview-text {
+    font-size: 0.875rem;
+}
+
+.minimal-preview-image {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: none;
+}
+
+/* 当有图片时的预览状态 */
+.minimal-image-preview.has-image .minimal-preview-default {
+    display: none;
+}
+
+.minimal-image-preview.has-image .minimal-preview-image {
+    display: block;
+}
+
+/* 图片预览悬停效果 */
+.minimal-image-preview.has-image:hover .minimal-preview-image {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+/* 图片预览模态框 */
+.minimal-image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+
+.minimal-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.minimal-modal-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+}
+
+.minimal-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.minimal-modal-close:hover {
+    color: var(--gray-300);
+}
+
+.minimal-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.minimal-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.minimal-brand {
+    margin-left: 220px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    text-decoration: none;
+}
+
+.minimal-nav {
+    display: flex;
+    align-items: center;
+    margin-right: 80px;
+}
+
+.minimal-nav-list {
+    list-style: none;
+    display: flex;
+    margin: 4px;
+    padding: 0;
+}
