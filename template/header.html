@@ -109,10 +109,11 @@
         background-color: var(--gray-200);
         margin: 0.5rem 0;
     }
+
     .login-button-wrapper {
         position: relative;
         display: inline-block;
-         /* 为下方提示框留出空间 */
+        /* 为下方提示框留出空间 */
         margin-right: 80px;
     }
 
@@ -148,7 +149,7 @@
         opacity: 0;
         pointer-events: none;
         transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         z-index: 100;
     }
 
@@ -194,8 +195,9 @@
     }
 
 
-
 </style>
+{#<link rel="stylesheet" href="{% static 'css/day-night.css' %}">#}
+
 <header class="minimal-header">
     <div class="minimal-header-container">
         <a href="{% url 'products-list' %}" class="minimal-brand">Gallery Collab</a>
@@ -233,6 +235,8 @@
                         </div>
                     </li>
                 </ul>
+                {#      日夜间切换          #}
+                <theme-button value="light" id="btn" size="2"></theme-button>
             </nav>
         {% else %}
             <div class="login-button-wrapper">
@@ -248,6 +252,33 @@
             </div>
         {% endif %}
     </div>
+    {#        日夜间切换js#}
+    <script src="{% static 'js/day-night.js' %}"></script>
+    <script>
+        // 设置初始背景色
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedMode = localStorage.getItem('themeMode') || 'light';
+            applyThemeMode(savedMode);
+            btn.value = savedMode; // 设置按钮初始值
+        });
+
+        // 监听按钮切换事件
+        btn.addEventListener("change", e => {
+            const mode = e.detail;
+            localStorage.setItem('themeMode', mode);  // 保存选择
+            applyThemeMode(mode);
+        });
+
+        // 应用主题模式函数
+        function applyThemeMode(mode) {
+            if (mode === 'dark') {
+                document.body.style.backgroundColor = "#424242";
+            } else {
+                document.body.style.backgroundColor = "#fafafa";
+            }
+        }
+
+    </script>
     <script>
         // 用户下拉菜单交互
         document.addEventListener('DOMContentLoaded', function () {

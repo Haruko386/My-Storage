@@ -2,170 +2,62 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>摄影集登录</title>
+    <title>白天/黑夜模式切换示例</title>
     <style>
-        :root {
-            --white: #ffffff;
-            --gray-50: #fafafa;
-            --gray-100: #f5f5f5;
-            --gray-200: #eeeeee;
-            --gray-300: #e0e0e0;
-            --gray-400: #bdbdbd;
-            --gray-500: #9e9e9e;
-            --gray-600: #757575;
-            --gray-700: #616161;
-            --gray-800: #424242;
-            --gray-900: #212121;
-            --shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, sans-serif;
-        }
-
+        /* 白天模式样式 */
         body {
-            background-color: var(--gray-50);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 1rem;
+            margin: 0;
+            padding: 2em;
+            background-color: white;
+            color: black;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .minimal-login-container {
-            width: 100%;
-            max-width: 400px;
-            background-color: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 4px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow);
+        /* 黑夜模式样式 */
+        body.dark-mode {
+            background-color: #121212;
+            color: #eeeeee;
         }
 
-        .minimal-login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .minimal-login-header h1 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.5px;
-        }
-
-        .minimal-login-header p {
-            color: var(--gray-600);
-            font-size: 0.95rem;
-        }
-
-        .minimal-form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .minimal-form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--gray-700);
-            font-size: 0.9rem;
-        }
-
-        .minimal-form-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--gray-300);
-            border-radius: 4px;
-            font-size: 0.95rem;
-            background-color: var(--white);
-            transition: all 0.2s;
-        }
-
-        .minimal-form-input:focus {
-            outline: none;
-            border-color: var(--gray-500);
-            box-shadow: 0 0 0 2px rgba(0,0,0,0.03);
-        }
-
-        .minimal-form-input::placeholder {
-            color: var(--gray-400);
-        }
-
-        .minimal-login-btn {
-            width: 100%;
-            padding: 0.875rem;
-            background-color: var(--gray-800);
-            color: var(--white);
+        #mode-toggle {
+            padding: 0.5em 1em;
             border: none;
-            border-radius: 4px;
-            font-size: 0.95rem;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1em;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 0.5rem;
         }
 
-        .minimal-login-btn:hover {
-            background-color: var(--gray-700);
-        }
-
-        .minimal-login-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--gray-600);
-            font-size: 0.9rem;
-        }
-
-        .minimal-login-footer a {
-            color: var(--gray-800);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .minimal-login-footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 480px) {
-            .minimal-login-container {
-                padding: 1.5rem;
-            }
-
-            .minimal-login-header h1 {
-                font-size: 1.5rem;
-            }
+        body.dark-mode #mode-toggle {
+            background-color: #333;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-<div class="minimal-login-container">
-    <div class="minimal-login-header">
-        <h1>摄影集登录</h1>
-        <p>访问您的摄影作品收藏</p>
-    </div>
+<h1>欢迎！</h1>
+<p>这是一个白天/黑夜模式切换的示例页面。</p>
+<button id="mode-toggle">🌙 切换模式</button>
 
-    <form action="/login" method="POST">
-        <div class="minimal-form-group">
-            <label for="username">用户名</label>
-            <input type="text" id="username" name="username" class="minimal-form-input" placeholder="输入用户名" required>
-        </div>
+<script>
+    const toggle = document.getElementById("mode-toggle");
+    const body = document.body;
 
-        <div class="minimal-form-group">
-            <label for="password">密码</label>
-            <input type="password" id="password" name="password" class="minimal-form-input" placeholder="输入密码" required>
-        </div>
+    // 初始化加载用户的模式偏好（来自 localStorage）
+    if (localStorage.getItem("mode") === "dark") {
+        body.classList.add("dark-mode");
+        toggle.textContent = "☀️ 切换模式";
+    }
 
-        <button type="submit" class="minimal-login-btn">登 录</button>
-    </form>
-
-    <div class="minimal-login-footer">
-        <p>没有账号? <a href="/register">立即注册</a></p>
-        <p><a href="/forgot-password">忘记密码?</a></p>
-    </div>
-</div>
+    // 切换模式
+    toggle.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+        const isDark = body.classList.contains("dark-mode");
+        localStorage.setItem("mode", isDark ? "dark" : "light");
+        toggle.textContent = isDark ? "☀️ 切换模式" : "🌙 切换模式";
+    });
+</script>
 </body>
 </html>

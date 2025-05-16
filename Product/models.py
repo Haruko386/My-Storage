@@ -10,12 +10,13 @@ class Product(models.Model):
     Shooting_Date = models.DateField()
     image = models.ImageField(upload_to='products/')
     description = models.TextField()
+    visible = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
 
     class Meta:
-        ordering = ['Shooting_Date']
+        ordering = ['-id']
         verbose_name_plural = 'Products'
         verbose_name = 'Product'
 

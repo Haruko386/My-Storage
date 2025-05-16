@@ -1,11 +1,16 @@
+from django.contrib.auth.decorators import login_required
+import json
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from Product.models import Product
 import markdown
 from .form import ProductForm
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -62,6 +67,18 @@ def product_edit(request, id):
         if form.is_valid():
             form.save()
             return redirect('product_list')
-    else:
-        return HttpResponse('Form is not valid')
 
+    return HttpResponse('Form is not valid')
+
+
+@login_required
+@require_POST
+def toggle_visibility(request, product_id):
+    try:
+        product = Product.objects.get(id=product_id, user=request.user)
+        data = json.loads(request.body)
+        product.visible = data.get('visible', False)
+        product.save()
+        return JsonResponse({'success': True})
+    except Product.DoesNotExist:
+        return JsonResponse({'success': False}, status=403)

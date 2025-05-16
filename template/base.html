@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="{% static 'css/list.css' %}">
     <link rel="stylesheet" href="{% static 'css/add.css'%}">
     <link rel="stylesheet" href="{% static 'css/photo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fade.css' %}">
+<style>
+    body{
+        transition: 0.5s;
+    }
+</style>
 </head>
 <body class="minimal-body">
 <!-- 导航栏 -->
@@ -27,8 +33,9 @@
 <!-- JS 依赖 -->
 <script src="{% static 'js/products.js' %}"></script>
 <script src="{% static 'jquery/jquery-3.7.1.min.js' %}"></script>
-<script src="{% static 'js/minimal.js' %}"></script> <!-- 自定义极简交互 -->
+<script src="{% static 'js/minimal.js' %}"></script>
 <script src="{% static 'js/list.js' %}"></script>
 <script src="{% static 'js/add.js' %}"></script>
+<script src="{% static 'js/fade.js' %}"></script>
 </body>
 </html>
