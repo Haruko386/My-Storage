@@ -14,8 +14,10 @@
                         {% if forloop.counter0|divisibleby:2 %}
                             <!-- 图片在左的布局 -->
                             <div class="minimal-current-image">
-                                <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }}"
+                            <a href="{% url 'products_detail' product.id %}">
+                                <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }} "
                                      alt="{{ product.name }}" loading="lazy">
+                            </a>
                             </div>
                             <div class="minimal-current-details">
                                 <h1 class="minimal-photo-title">{{ product.name }}</h1>
@@ -28,10 +30,6 @@
                                         {{ product.description|linebreaks }}
                                     </div>
                                 </div>
-                                <a href="{% url 'products_detail' product.id %}" class="minimal-view-detail">
-                                    <span class="minimal-view-icon">🔍</span>
-                                    <span>View Full Story</span>
-                                </a>
                             </div>
                         {% else %}
                             <!-- 图片在右的布局 -->
@@ -46,14 +44,12 @@
                                         {{ product.description|linebreaks }}
                                     </div>
                                 </div>
-                                <a href="{% url 'products_detail' product.id %}" class="minimal-view-detail">
-                                    <span class="minimal-view-icon">🔍</span>
-                                    <span>View Full Story</span>
-                                </a>
                             </div>
                             <div class="minimal-current-image">
+                            <a href="{% url 'products_detail' product.id %}">
                                 <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }}"
                                      alt="{{ product.name }}" loading="lazy">
+                            </a>
                             </div>
                         {% endif %}
                     </div>

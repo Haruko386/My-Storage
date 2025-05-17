@@ -235,8 +235,6 @@
                         </div>
                     </li>
                 </ul>
-                {#      日夜间切换          #}
-                <theme-button value="light" id="btn" size="2"></theme-button>
             </nav>
         {% else %}
             <div class="login-button-wrapper">
@@ -252,33 +250,7 @@
             </div>
         {% endif %}
     </div>
-    {#        日夜间切换js#}
-    <script src="{% static 'js/day-night.js' %}"></script>
-    <script>
-        // 设置初始背景色
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedMode = localStorage.getItem('themeMode') || 'light';
-            applyThemeMode(savedMode);
-            btn.value = savedMode; // 设置按钮初始值
-        });
 
-        // 监听按钮切换事件
-        btn.addEventListener("change", e => {
-            const mode = e.detail;
-            localStorage.setItem('themeMode', mode);  // 保存选择
-            applyThemeMode(mode);
-        });
-
-        // 应用主题模式函数
-        function applyThemeMode(mode) {
-            if (mode === 'dark') {
-                document.body.style.backgroundColor = "#424242";
-            } else {
-                document.body.style.backgroundColor = "#fafafa";
-            }
-        }
-
-    </script>
     <script>
         // 用户下拉菜单交互
         document.addEventListener('DOMContentLoaded', function () {
