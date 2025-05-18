@@ -11,19 +11,6 @@ from Account.form import UserLoginForm
 # Create your views here.
 
 
-def user_register(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['<PASSWORD>']
-        if password == password2:
-            if User.objects.filter(username=username).exists():
-                messages.error(request, 'Username already taken')
-    elif request.method == 'GET':
-        return render(request, 'account/register.html')
-
-
 def user_login(request):
     if request.method == 'POST':
         user_login_form = UserLoginForm(request.POST)

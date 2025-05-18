@@ -7,8 +7,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery Collab 🎨</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fade.css' %}">
 </head>
 <style>
+{#  我也不知道为什么这个链接不过来，只好放在html里面得了  #}
+    .floating-avatar {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .floating-avatar:hover {
+        transform: scale(1.05);
+    }
+
     .floating-avatar {
         position: fixed;
         top: 20px;
@@ -40,15 +56,8 @@
         object-fit: cover;
         display: block;
     }
-
-    .empty-avatar {
-        width: 60%;
-        height: 60%;
-        border-radius: 50%;
-        background-color: #ccc;
-    }
-
 </style>
+
 <div class="floating-avatar">
     <a href="{% url 'user_profile' %}">
         <div class="avatar-circle">
@@ -58,11 +67,7 @@
         </div>
     </a>
 </div>
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
-<link rel="stylesheet" href="{% static 'css/minimal.css' %}">
-<link rel="stylesheet" href="{% static 'css/list.css' %}">
-<link rel="stylesheet" href="{% static 'css/fade.css' %}">
+
 <body>
 <div class="shell" id="shell">
     <div class="header">
@@ -95,7 +100,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 {#互动栏#}
-{#<link rel="stylesheet" href="{% static 'css/list.css' %}">#}
 
 
 <script>
