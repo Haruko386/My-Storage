@@ -52,3 +52,7 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('products-list')
+
+
+def user_profile(request):
+    return render(request, 'account/info.html')

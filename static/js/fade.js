@@ -1,16 +1,18 @@
-// 页面加载后渐显
-document.addEventListener("DOMContentLoaded", function () {
-    document.body.classList.add("fade-in");
-});
+// 页面淡入函数
+function fadeIn() {
+    document.body.style.opacity = 1;
+}
 
-// 页面离开时淡出
+// 页面加载完成（首次进入）
 document.addEventListener("DOMContentLoaded", function () {
+    fadeIn(); // 执行淡入动画
+
     const links = document.querySelectorAll("a");
 
     links.forEach(function (link) {
         const href = link.getAttribute("href");
 
-        // 防止空链接、锚点和 JS链接影响跳转
+        // 排除锚点、JS链接、新标签页等情况
         if (
             href &&
             !href.startsWith("#") &&
@@ -19,13 +21,19 @@ document.addEventListener("DOMContentLoaded", function () {
         ) {
             link.addEventListener("click", function (e) {
                 e.preventDefault();
-                document.body.classList.remove("fade-in");
                 document.body.style.opacity = 0;
                 setTimeout(function () {
                     window.location = href;
-                }, 300); // 与CSS中transition一致
+                }, 300); // 与 transition 时间一致
             });
         }
     });
 });
 
+// 处理浏览器返回时的淡入（如后退按钮）
+window.addEventListener("pageshow", function (event) {
+    // 如果是从 bfcache 恢复，则需要手动淡入
+    if (event.persisted) {
+        fadeIn();
+    }
+});

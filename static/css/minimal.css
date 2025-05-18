@@ -144,7 +144,7 @@
 
 /* 页脚样式 */
 .minimal-footer {
-    background-color: var(--white);
+    background-color: rgba(99, 99, 99, 0.8);
     border-top: 1px solid var(--gray-200);
     padding: 1.5rem 0;
     margin-top: auto;

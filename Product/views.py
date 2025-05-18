@@ -75,10 +75,12 @@ def product_edit(request, id):
 @require_POST
 def toggle_visibility(request, product_id):
     try:
-        product = Product.objects.get(id=product_id, user=request.user)
+        product = Product.objects.get(id=product_id)
         data = json.loads(request.body)
         product.visible = data.get('visible', False)
         product.save()
         return JsonResponse({'success': True})
     except Product.DoesNotExist:
-        return JsonResponse({'success': False}, status=403)
+        return JsonResponse({'success': False, 'error': 'Product not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

@@ -1,0 +1,163 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Collab</title>
+    <link rel="stylesheet" href="{% static 'css/fade.css' %}">
+    <style>
+        body{
+            background-color: #fbc8d4;
+            display: flex;
+            justify-content: center;
+        }
+        .card-container {
+            position: relative;
+            width: 700px;
+            height: 400px;
+            border: #fff 10px solid;
+            background-color: rgb(132, 185, 255);
+            top: 240px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.445);
+            filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.164));
+        }
+        .text-content {
+            position: absolute;
+            width: 200px;
+            height: 300px;
+            left: 0;
+            margin: 75px 50px;
+            transition: 1s;
+        }
+        .text-content a{
+            text-decoration: none;
+            color: #fff;
+            font: 900 28px '';
+        }
+        .text-content h2{
+            transition: .5s 1s;
+            opacity: 0;
+            color: rgb(30,210,200);
+        }
+        .text-content span{
+            transition: .5s 1s;
+            color: #fff;
+            font: 500 15px '';
+            position: absolute;
+            top: 70px;
+        }
+        .cylinders-container {
+            position: absolute;
+            top: -130px;
+            right: -240px;
+        }
+        .cylinder-main, .cylinder-secondary {
+            position: absolute;
+            right: calc(var(--i)*100px);
+            width: calc(var(--w)*40px);
+            height: 500px;
+            overflow: hidden;
+            border-radius: 100px;
+            transform: rotateZ(220deg) translate(0,0);
+            background: rgb(240,220,150);
+            transition: .5s .5s;
+        }
+        .cylinder-main:nth-child(2){
+            background: rgb(240,190,230);
+        }
+        .cylinder-secondary {
+            left: -470px;
+            top: -140px;
+            width: 70px;
+            background-color: rgb(90,220,150);
+        }
+        .card-container:hover .cylinders-container div {
+            transition: .5s calc(var(--i)*.1s);
+            transform: rotateZ(220deg) translate(-200px,400px);
+        }
+        .card-container:hover .text-content {
+            transition: 1s .5s;
+            left: 370px;
+        }
+        .card-container:hover .text-content span {
+            transition: 1s .5s;
+            top: 105px;
+        }
+        .card-container:hover .text-content h2 {
+            transition: 1s .5s;
+            opacity: 1;
+        }
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            position: absolute;
+            background-image: url("{% static 'asset/profile.jpg' %}");
+            border-radius: 10px;
+            background-size: cover;
+            margin: 70px;
+            opacity: 0;
+            transition: .5s;
+        }
+        .card-container:hover .qr-code {
+            transition: 1s 1.3s;
+            opacity: 1;
+        }
+        /* 新增按钮样式 */
+        .action-buttons {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-image: linear-gradient(to bottom, #788CC8FF, #a29bfe);
+            color: white;
+            text-decoration: none;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+<div class="card-container">
+    <div class="text-content">
+        <a href="{% url 'products-list' %}">Gallery Collab</a>
+        <h2>WX: Haruko386</h2>
+        <span>I'm a Master work in CV,</br>I'm learning new knowledge every day to share with you,<br/>I hope in the days to come<br/>Keep going!!</span>
+    </div>
+    <div class="cylinders-container">
+        <div class="cylinder-main" style="--i:1;--w:1.5"></div>
+        <div class="cylinder-main" style="--i:2;--w:1.6"></div>
+        <div class="cylinder-main" style="--i:3;--w:1.4"></div>
+        <div class="cylinder-main" style="--i:4;--w:1.7"></div>
+        <div class="cylinder-secondary" style="--i:1"></div>
+    </div>
+    <div class="qr-code"></div>
+
+    <!-- 新增按钮区域 -->
+    <div class="action-buttons">
+        <button class="action-btn" onclick="location.href='{% url 'logout' %}'">Logout</button>
+        <button class="action-btn" onclick="location.href='{% url 'product_add' %}'">Add</button>
+        <button class="action-btn" onclick="location.href='https://space.bilibili.com/291003955'">Bilibili</button>
+        <a href="{% url 'products-list' %}" class="action-btn">Back</a>
+    </div>
+</div>
+<script src="{% static 'js/fade.js' %}"></script>
+</body>
+</html>

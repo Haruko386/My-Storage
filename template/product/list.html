@@ -1,61 +1,250 @@
-{% extends "base.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Gallery Collab{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Collab 🎨</title>
+</head>
+<style>
+    .floating-avatar {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+    }
 
-{% block content %}
-    <link rel="stylesheet" href="{% static 'css/list-animation.css' %}">
-    <div class="minimal-main">
-        <div class="minimal-products-container">
-            {% for product in products %}
-                {% if product.visible or user.is_authenticated %}
-                    <div class="minimal-product-item fade-in-up {% cycle 'left-layout' 'right-layout' %}"
-                         style="animation-delay: {{ forloop.counter0|divisibleby:2|yesno:'0.1s,0.3s' }}">
-                        {% if forloop.counter0|divisibleby:2 %}
-                            <!-- 图片在左的布局 -->
-                            <div class="minimal-current-image">
-                            <a href="{% url 'products_detail' product.id %}">
-                                <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }} "
-                                     alt="{{ product.name }}" loading="lazy">
-                            </a>
-                            </div>
-                            <div class="minimal-current-details">
-                                <h1 class="minimal-photo-title">{{ product.name }}</h1>
-                                <div class="minimal-photo-meta">
-                                    <div class="minimal-meta-date">
-                                        <span class="minimal-meta-icon">📅</span>
-                                        <span class="minimal-date-value">{{ product.Shooting_Date|date:"Y.m.d" }}</span>
-                                    </div>
-                                    <div class="minimal-photo-description">
-                                        {{ product.description|linebreaks }}
-                                    </div>
-                                </div>
-                            </div>
-                        {% else %}
-                            <!-- 图片在右的布局 -->
-                            <div class="minimal-current-details">
-                                <h1 class="minimal-photo-title">{{ product.name }}</h1>
-                                <div class="minimal-photo-meta">
-                                    <div class="minimal-meta-date">
-                                        <span class="minimal-meta-icon">📅</span>
-                                        <span class="minimal-date-value">{{ product.Shooting_Date|date:"Y.m.d" }}</span>
-                                    </div>
-                                    <div class="minimal-photo-description">
-                                        {{ product.description|linebreaks }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="minimal-current-image">
-                            <a href="{% url 'products_detail' product.id %}">
-                                <img src="{{ product.image.url|default:'https://s2.loli.net/2024/12/02/SBkMjwRoA7sba6c.jpg' }}"
-                                     alt="{{ product.name }}" loading="lazy">
-                            </a>
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            {% endfor %}
+    .floating-avatar:hover {
+        transform: scale(1.05);
+    }
+
+    .avatar-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #f0f0f0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .user-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .empty-avatar {
+        width: 60%;
+        height: 60%;
+        border-radius: 50%;
+        background-color: #ccc;
+    }
+
+</style>
+<div class="floating-avatar">
+    <a href="{% if user.is_authenticated %}{% url 'user_profile' %}{% else %}{% url 'login' %}{% endif %}">
+        <div class="avatar-circle">
+            {% if user.is_authenticated %}
+                <img src="{{ user.avatar.url|default:'/media/accounts/default.png' }}"
+                     alt="{{ user.username }}"
+                     class="user-avatar">
+            {% else %}
+                <div class="empty-avatar"></div>
+            {% endif %}
         </div>
+    </a>
+</div>
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/minimal.css' %}">
+<link rel="stylesheet" href="{% static 'css/list.css' %}">
+<link rel="stylesheet" href="{% static 'css/fade.css' %}">
+<body>
+<div class="shell" id="shell">
+    <div class="header">
+        <h2 class="title">Gallery Collab 🎨</h2>
+        <h3 class="subtitle">BILIBILI</h3>
     </div>
-    <script src="{% static 'js/list-animation.js' %}"></script>
-{% endblock %}
+    <div class="timeline">
+        {% for p in products %}
+            {% if p.visible or user.is_authenticated %}
+                <div class="item" data-text="{{ p.name }}">
+                    <div class="content">
+                        <a href="{% url 'products_detail' p.id %}">
+                            <img src="{{ p.image.url }}" alt="" class="img">
+                        </a>
+                        <h2 class="content-title">{{ p.Shooting_Date|date:"Y-m-d" }}</h2>
+                        <p class="content-desc">
+                            {{ p.description }}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; font-size: 0.9rem; background-color: transparent;">
+        <p class="cpr"> © 2024 - 2025 ♥ Haruko386 ♥</p>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+{#互动栏#}
+{#<link rel="stylesheet" href="{% static 'css/list.css' %}">#}
+
+
+<script>
+    (function ($) {
+        $.fn.timeline = function () {
+            var selectors = {
+                id: $(this),
+                item: $(this).find(".item"),
+                activeClass: "item--active",
+                img: ".img"
+            };
+            // 将第一个时间轴项目激活，并设置时间轴背景图片为第一个项目的图片
+            selectors.item.eq(0).addClass(selectors.activeClass);
+            selectors.id.css(
+                "background-image",
+                "url(" +
+                selectors.item.first()
+                    .find(selectors.img)
+                    .attr("src") +
+                ")"
+            );
+            // 获取时间轴项目的总数
+            var itemLength = selectors.item.length;
+            // 当页面滚动时，触发滚动事件
+            $(window).scroll(function () {
+                var max, min;
+                // 获取页面滚动的距离
+                var pos = $(this).scrollTop();
+                // 添加一个提前量，让切换在元素进入视窗前就发生
+                var earlyOffset = $(window).height() * 0.35; // 视窗高度的35%作为提前量
+
+                selectors.item.each(function (i) {
+                    // 获取当前时间轴项目的最小和最大高度
+                    min = $(this).offset().top;
+                    max = $(this).height() + $(this).offset().top;
+                    var that = $(this);
+
+                    // 如果滚动到最后一个项目，并且超过了当前项目高度的一半，
+                    // 则将最后一个项目设置为激活状态，并设置背景图片为最后一个项目的图片
+                    if (i === itemLength - 2 && pos > min + $(this).height() / 2) {
+                        selectors.item.removeClass(selectors.activeClass);
+                        selectors.id.css(
+                            "background-image",
+                            "url(" +
+                            selectors.item.last()
+                                .find(selectors.img)
+                                .attr("src") +
+                            ")"
+                        );
+                        selectors.item.last().addClass(selectors.activeClass);
+                    }
+                    // 修改条件：当滚动位置接近元素顶部（提前earlyOffset像素）时就切换
+                    else if (pos <= max - 10 && pos >= min - earlyOffset) {
+                        selectors.id.css(
+                            "background-image",
+                            "url(" +
+                            $(this)
+                                .find(selectors.img)
+                                .attr("src") +
+                            ")"
+                        );
+                        selectors.item.removeClass(selectors.activeClass);
+                        $(this).addClass(selectors.activeClass);
+                    }
+                });
+            });
+        };
+    })(jQuery);
+
+    $("#shell").timeline();
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const floatingButton = document.getElementById('floatingButton');
+        const floatingMenu = document.getElementById('floatingMenu');
+        const floatingIcon = floatingButton.querySelector('.floating-icon');
+
+        let isMenuOpen = false;
+
+        floatingButton.addEventListener('click', function () {
+            isMenuOpen = !isMenuOpen;
+
+            if (isMenuOpen) {
+                floatingMenu.classList.add('active');
+                floatingIcon.textContent = '✕'; // 或者使用 ↑
+                floatingIcon.style.transform = 'rotate(90deg)';
+            } else {
+                floatingMenu.classList.remove('active');
+                floatingIcon.textContent = '☰';
+                floatingIcon.style.transform = 'rotate(0)';
+            }
+        });
+
+        // 点击页面其他地方关闭菜单
+        document.addEventListener('click', function (e) {
+            if (!floatingButton.contains(e.target) && !floatingMenu.contains(e.target)) {
+                floatingMenu.classList.remove('active');
+                floatingIcon.textContent = '☰';
+                floatingIcon.style.transform = 'rotate(0)';
+                isMenuOpen = false;
+            }
+        });
+    });
+</script>
+<script>
+    // 页面淡入函数
+    function fadeIn() {
+        document.body.style.opacity = 1;
+    }
+
+    // 页面加载完成（首次进入）
+    document.addEventListener("DOMContentLoaded", function () {
+        fadeIn(); // 执行淡入动画
+
+        const links = document.querySelectorAll("a");
+
+        links.forEach(function (link) {
+            const href = link.getAttribute("href");
+
+            // 排除锚点、JS链接、新标签页等情况
+            if (
+                href &&
+                !href.startsWith("#") &&
+                !href.startsWith("javascript:") &&
+                !link.hasAttribute("target")
+            ) {
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    document.body.style.opacity = 0;
+                    setTimeout(function () {
+                        window.location = href;
+                    }, 300); // 与 transition 时间一致
+                });
+            }
+        });
+    });
+
+    // 处理浏览器返回时的淡入（如后退按钮）
+    window.addEventListener("pageshow", function (event) {
+        // 如果是从 bfcache 恢复，则需要手动淡入
+        if (event.persisted) {
+            fadeIn();
+        }
+    });
+
+</script>
+</body>
+</html>
