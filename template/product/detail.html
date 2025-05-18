@@ -8,6 +8,17 @@
     <title>Gallery Collab</title>
     <link rel="stylesheet" href="{% static 'css/detail.css' %}">
     <link rel="stylesheet" href="{% static 'css/fade.css' %}">
+    <style>
+        .head::before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: url("{{ product.image.url }}");
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
 <body>
 

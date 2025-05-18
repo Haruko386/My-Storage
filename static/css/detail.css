@@ -34,15 +34,7 @@ body {
     overflow: hidden;
 }
 
-.head::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: url("{{ product.image.url }}");
-    background-size: cover;
-    background-position: center;
-}
+
 
 /* 信息展示区域 */
 .info-container {
