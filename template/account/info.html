@@ -9,11 +9,12 @@
     <title>Gallery Collab</title>
     <link rel="stylesheet" href="{% static 'css/fade.css' %}">
     <style>
-        body{
+        body {
             background-color: #fbc8d4;
             display: flex;
             justify-content: center;
         }
+
         .card-container {
             position: relative;
             width: 700px;
@@ -26,6 +27,7 @@
             box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.445);
             filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.164));
         }
+
         .text-content {
             position: absolute;
             width: 200px;
@@ -34,64 +36,76 @@
             margin: 75px 50px;
             transition: 1s;
         }
-        .text-content a{
+
+        .text-content a {
             text-decoration: none;
             color: #fff;
             font: 900 28px '';
         }
-        .text-content h2{
+
+        .text-content h2 {
             transition: .5s 1s;
             opacity: 0;
-            color: rgb(30,210,200);
+            color: rgb(138, 30, 210);
         }
-        .text-content span{
+
+        .text-content span {
             transition: .5s 1s;
             color: #fff;
             font: 500 15px '';
             position: absolute;
             top: 70px;
         }
+
         .cylinders-container {
             position: absolute;
             top: -130px;
             right: -240px;
         }
+
         .cylinder-main, .cylinder-secondary {
             position: absolute;
-            right: calc(var(--i)*100px);
-            width: calc(var(--w)*40px);
+            right: calc(var(--i) * 100px);
+            width: calc(var(--w) * 40px);
             height: 500px;
             overflow: hidden;
             border-radius: 100px;
-            transform: rotateZ(220deg) translate(0,0);
-            background: rgb(240,220,150);
+            transform: rotateZ(220deg) translate(0, 0);
+            background: rgb(240, 220, 150);
             transition: .5s .5s;
         }
-        .cylinder-main:nth-child(2){
-            background: rgb(240,190,230);
+
+        .cylinder-main:nth-child(2) {
+            background: rgb(240, 190, 230);
         }
+
         .cylinder-secondary {
             left: -470px;
             top: -140px;
             width: 70px;
-            background-color: rgb(90,220,150);
+            background-color: rgb(90, 220, 150);
         }
+
         .card-container:hover .cylinders-container div {
-            transition: .5s calc(var(--i)*.1s);
-            transform: rotateZ(220deg) translate(-200px,400px);
+            transition: .5s calc(var(--i) * .1s);
+            transform: rotateZ(220deg) translate(-200px, 400px);
         }
+
         .card-container:hover .text-content {
             transition: 1s .5s;
             left: 370px;
         }
+
         .card-container:hover .text-content span {
             transition: 1s .5s;
             top: 105px;
         }
+
         .card-container:hover .text-content h2 {
             transition: 1s .5s;
             opacity: 1;
         }
+
         .qr-code {
             width: 250px;
             height: 250px;
@@ -103,10 +117,12 @@
             opacity: 0;
             transition: .5s;
         }
+
         .card-container:hover .qr-code {
             transition: 1s 1.3s;
             opacity: 1;
         }
+
         /* 新增按钮样式 */
         .action-buttons {
             position: absolute;
@@ -117,6 +133,7 @@
             gap: 15px;
             z-index: 10;
         }
+
         .action-btn {
             padding: 8px 16px;
             border: none;
@@ -128,6 +145,7 @@
             color: white;
             text-decoration: none;
         }
+
         .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -152,9 +170,14 @@
 
     <!-- 新增按钮区域 -->
     <div class="action-buttons">
-        <button class="action-btn" onclick="location.href='{% url 'logout' %}'">Logout</button>
-        <button class="action-btn" onclick="location.href='{% url 'product_add' %}'">Add</button>
-        <button class="action-btn" onclick="location.href='https://space.bilibili.com/291003955'">Bilibili</button>
+        {% if user.is_authenticated %}
+            <button class="action-btn" onclick="location.href='{% url 'logout' %}'">Logout</button>
+            <button class="action-btn" onclick="location.href='{% url 'product_add' %}'">Add</button>
+            <button class="action-btn" onclick="location.href='https://space.bilibili.com/291003955'">Bilibili</button>
+        {% else %}
+            <button class="action-btn" onclick="location.href='{% url 'login' %}'">Login</button>
+            <button class="action-btn" onclick="location.href='https://space.bilibili.com/291003955'">Bilibili</button>
+        {% endif %}
         <a href="{% url 'products-list' %}" class="action-btn">Back</a>
     </div>
 </div>
