@@ -1,7 +1,7 @@
-asgiref @ file:///C:/b/abs_ae1n0p_8_w/croot/asgiref_1724072476516/work
+asgiref
 cffi==1.17.1
 cryptography==44.0.3
-Django @ file:///C:/b/abs_732pccxzov/croot/django_1745263601709/work
+Django
 gunicorn==21.2.0
 Markdown==3.8
 mysqlclient==2.2.7
@@ -10,5 +10,5 @@ pycparser==2.22
 Pygments==2.19.1
 PyMySQL==1.1.1
 setuptools==78.1.1
-sqlparse @ file:///C:/b/abs_68npyz0s6_/croot/sqlparse_1734704476369/work
+sqlparse
 wheel==0.45.1
